@@ -478,6 +478,7 @@ function renderTimeDropDown($name,$default)
 function getAlertsForNodeAndPlugin($nid,$plugin)
 {
 	global $db;
+    $and = "";
 	if($_SESSION['role'] != "admin")
 	{
 		$and = " AND user_id = '$_SESSION[user_id]'";

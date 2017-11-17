@@ -750,7 +750,7 @@ elseif($_GET['favorite'] == "false")
 					}
 				}
 				
-				if($_GET['action'] == "edit")
+				if(isset($_GET['action']) && ($_GET['action'] == "edit"))
 				{
 					if($_SESSION['role'] != "admin" && $_SESSION['role'] != "userext")
 					{

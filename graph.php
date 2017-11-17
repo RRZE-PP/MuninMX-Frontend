@@ -31,7 +31,7 @@ if(!$node)
 	die("unknown node");
 }
 
-if(!$_GET['stype'])
+if(!isset($_GET['stype']) || !$_GET['stype'])
 {
 	// set chart type
 	if(!isset($_SESSION['stype']))
@@ -100,7 +100,7 @@ $host = $_GET['node'];
 $plugin = $_GET['plugin'];
 
 
-if(!$_GET['dateformat'])
+if(!isset($_GET['dateformat']) || !$_GET['dateformat'])
 {
 	$dff = '{value:%d.%m %H:%M:%S}';	
 	$dfr = -70;
@@ -140,7 +140,7 @@ if(!dataAvailable($host,$plugin))
         <script src="js/highstock.js" type="text/javascript"></script>
         <script src="js/bootstrap/bootstrap.min.js"></script>
         <script src="js/modules/exporting.js"></script>
-        <?php if(is_numeric($_GET['refresh'])) { ?>
+        <?php if(isset($_GET['refresh']) && is_numeric($_GET['refresh'])) { ?>
         	<meta http-equiv="refresh" content="<?php echo $_GET['refresh']*60?>; URL=<?php echo getCurUrl()?>">
        	<?php } ?>
     </head>
@@ -191,9 +191,9 @@ if($_GET['period'])
 	$ttext = "/" . htmlspecialchars($ptext);	
 }
 
-if(!$_GET['start'] && !$_GET['end'])
+if((!isset($_GET['start']) || !$_GET['start']) && (!isset($_GET['end']) || !$_GET['end']))
 {
-	if($_GET['day'])
+	if(isset($_GET['day']) && $_GET['day'])
 	{
 		$start = strtotime($_GET['day']);
 		$end = strtotime('+1 day', $start);
@@ -280,7 +280,7 @@ $(document).ready(function() {
             animation: false,
             shadow: false            
         },
-         <?php if($shownav) { ?>
+         <?php if(isset($shownav) && $shownav) { ?>
 		    navigator: {
 				enabled: true,
 				adaptToUpdatedData: false

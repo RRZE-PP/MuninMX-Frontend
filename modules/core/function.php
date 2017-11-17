@@ -3,7 +3,8 @@
 
 function getCurUrl()
 {
-	 $actual_link = PROTO."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+     #$actual_link = PROTO."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+     $actual_link = BASEURL.$_SERVER[REQUEST_URI];
 	 return $actual_link;
 }
 

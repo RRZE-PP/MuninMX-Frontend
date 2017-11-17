@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR);
 if(php_sapi_name() != "cli")
 {
 	echo "no cli..\n";
@@ -7,11 +8,10 @@ if(php_sapi_name() != "cli")
 chdir("..");
 include("inc/startup.php");
 $m = new MongoClient(MONGO_HOST,array('socketTimeoutMS' => '-1'));
+MongoCursor::$timeout = -1;
 $dbm = $m->selectDB(MONGO_DB);
-
 $list = $dbm->listCollections();
 foreach ($list as $collection) {
-	    
 	$colname = substr($collection,8,strlen($collection));
 	$db->query("SELECT * FROM index_log WHERE colname = '$colname'");
 	if($db->affected_rows > 0)
@@ -24,9 +24,10 @@ foreach ($list as $collection) {
 		flush();
 		ob_flush();
 		$c = new MongoCollection($dbm, $colname);
-		$c->ensureIndex(array("graph" => 1, "plugin" => 1, 'recv' => 1),array('clustering' => true, 'background' => true, 'timeout' => 900000));
-		$c->ensureIndex(array("recv" => 1), array('background' => true, 'timeout' => 900000));
-		$c->ensureIndex(array("recv" => 1,"customId" => 1), array('background' => true, 'timeout' => 900000));
+                // unrza132
+		$c->ensureIndex(array("plugin" => 1, "graph" => 1, "recv" => 1), array('background' => true, 'timeout' => 2000000));
+		$c->ensureIndex(array("recv" => 1), array('background' => true, 'timeout' => 2000000));
+		$c->ensureIndex(array("recv" => 1,"customId" => 1), array('background' => true, 'timeout' => 2000000));
 		$db->query("INSERT INTO index_log (colname) VALUES ('$colname')");
 	}
 }
@@ -49,8 +50,8 @@ foreach ($list as $collection) {
 		flush();
 		ob_flush();
 		$c = new MongoCollection($dbm, $colname);
-		$c->ensureIndex(array("cid" => 1, "time" => 1),array('clustering' => true, 'background' => true, 'timeout' => 900000));
-		$c->ensureIndex(array("cid" => 1, "time" => 1, "status" => 1), array('background' => true, 'timeout' => 900000));
+		 $c->ensureIndex(array("cid" => 1, "time" => 1),array('background' => true, 'timeout' => 2000000));
+		$c->ensureIndex(array("cid" => 1, "time" => 1, "status" => 1), array('background' => true, 'timeout' => 2000000));
 		$db->query("INSERT INTO index_log (colname) VALUES ('$colname')");
 	}
 }
@@ -58,10 +59,10 @@ foreach ($list as $collection) {
 // add trackpkg index
 $dbm = $m->selectDB(MONGO_DB_ESSENTIALS);
 $c = new MongoCollection($dbm, "trackpkg");
-$c->ensureIndex(array("package" => 1, "node" => 1),array('clustering' => true, 'background' => true, 'timeout' => 900000));
-$c->ensureIndex(array("package" => 1, "node" => 1, "time" => 1),array('clustering' => true, 'background' => true, 'timeout' => 900000));
-$c->ensureIndex(array("package" => 1),array('clustering' => true, 'background' => true, 'timeout' => 900000));
-$c->ensureIndex(array("node" => 1, "time" => 1),array('background' => true, 'timeout' => 900000));
+$c->ensureIndex(array("package" => 1, "node" => 1),array('background' => true, 'timeout' => 2000000));
+$c->ensureIndex(array("package" => 1, "node" => 1, "time" => 1),array('background' => true, 'timeout' => 2000000));
+$c->ensureIndex(array("package" => 1),array('background' => true, 'timeout' => 2000000));
+$c->ensureIndex(array("node" => 1, "time" => 1),array('background' => true, 'timeout' => 2000000));
 
 // add index to essential collections
 $dbm = $m->selectDB(MONGO_DB_ESSENTIALS);
@@ -86,8 +87,8 @@ foreach ($list as $collection) {
 	{
 		$c = new MongoCollection($dbm, $colname);
 		echo "adding index to Essential collection: $colname \n ";
-		$c->ensureIndex(array("time" => 1),array('background' => true, 'timeout' => 900000));
-		$c->ensureIndex(array("time" => -1),array('background' => true, 'timeout' => 900000));
+		$c->ensureIndex(array("time" => 1),array('background' => true, 'timeout' => 2000000));
+		$c->ensureIndex(array("time" => -1),array('background' => true, 'timeout' => 2000000));
 		$db->query("INSERT INTO index_log (colname) VALUES ('$colname')");
 	}
 }

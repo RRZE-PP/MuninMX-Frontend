@@ -5,11 +5,14 @@ function editContactViaPost()
 {
 	global $db;
 		$contact = returnContact($_GET['cid']);
-		if($contact->user_id != $_SESSION['user_id'])
-		{
-			header("Location: /403.php");
-			die;
-		}
+        if($_SESSION['role'] != "admin")
+        {
+    		if($contact->user_id != $_SESSION['user_id'])
+	    	{
+		    	header("Location: /403.php");
+			    die;
+    		}
+        }
 		
 
 		$tpl = json_decode(json_encode($_POST), FALSE);

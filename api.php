@@ -1061,13 +1061,15 @@ function api_addCheck()
 			
 			// save check if no error occured
 			$escapedData = secureArray ( $_REQUEST );
-			$db->query ( "INSERT INTO service_checks (user_id,check_type,check_name,cinterval,json,accessgroup)
+
+			$db->query ( "INSERT INTO service_checks (user_id,check_type,check_name,cinterval,locations,json,accessgroup)
 				VALUES
 				(
 						'$user->id',
 						'$escapedData[checktype]',
 						'$escapedData[checkname]',
 						'$escapedData[interval]',
+                        '',
 						'$json',
 						'$escapedData[accessgroup]'
 				)");
@@ -1075,7 +1077,7 @@ function api_addCheck()
 			$checkInsertId = $db->insert_id;
 			
 			if ($checkInsertId <= 1) {
-				badrequest ( "Backend Error. Unable to save service check. Try again later" );
+                badrequest( "Database error"," Unable to save service check. Try again later.<br/>Error: " . $db->error);
 			} else {
 				$cid = $db->insert_id;
 				

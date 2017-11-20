@@ -249,12 +249,13 @@ if($_GET['a'] == "export" && $_GET['download'] == "true")
 								if(!$err)
 								{
 									$_POST = secureArray($_POST);
-									$db->query("INSERT INTO service_checks (user_id,check_type,check_name,cinterval,json,accessgroup)
+									$db->query("INSERT INTO service_checks (user_id,check_type,check_name,cinterval,locations,json,accessgroup)
 									VALUES 
 									($user->id,
 									$_POST[checktype],
 									'$_POST[checkname]',
 									$_POST[interval],
+                                    '',
 									'$json',
 									'$_POST[accessgroup]'
 									)
@@ -263,7 +264,7 @@ if($_GET['a'] == "export" && $_GET['download'] == "true")
 									
 									if($db->insert_id <= 1)
 									{
-										display_error("Backend Error"," Unable to save service check. Try again later");
+										display_error("Database error"," Unable to save service check. Try again later.<br/>Error: " . $db->error);
 									}
 									else 
 									{

@@ -192,14 +192,14 @@ if($_SESSION['role'] != "admin")
 														}
 														else
 														{
-															$db->query("INSERT INTO users (username,password,autologinkey,userrole,accessgroup,email,apikey,max_customs,max_nodes,sms_tickets,tts_tickets,retention,eventsallowed,max_checks) VALUES ('$_POST[username]','$pass','$_POST[autologinkey]','$_POST[userrole]','$accessgroup','$_POST[email]','$_POST[apikey]','$_POST[maxcustoms]','$_POST[max_nodes]','$_POST[sms_tickets]','$_POST[tts_tickets]','$_POST[retention]','$_POST[eventsallowed]','$_POST[max_checks]')");
+$db->query("INSERT INTO users (username,password,autologinkey,userrole,last_login_ip,accessgroup,email,apikey,max_customs,max_nodes,sms_tickets,tts_tickets,retention,eventsallowed,max_checks) VALUES ('$_POST[username]','$pass','$_POST[autologinkey]','$_POST[userrole]', '', '$accessgroup','$_POST[email]','$_POST[apikey]','$_POST[maxcustoms]','$_POST[max_nodes]','$_POST[sms_tickets]','$_POST[tts_tickets]','$_POST[retention]','$_POST[eventsallowed]','$_POST[max_checks]')");
 															if($db->affected_rows > 0)
 															{
 																display_ok("User added","User successfully added in database");
 															}	
 															else
 															{
-																display_error("Database Error","cannot add user. try again later");
+																display_error("Database Error","Cannot add user. Try again later.<br/>Error: ".$db->error);
 																include("templates/user/add.tpl.php");
 															}
 														}

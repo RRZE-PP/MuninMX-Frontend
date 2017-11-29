@@ -102,7 +102,7 @@ if(isset($_GET['action']) && $_GET['action'] == "add")
 
 										
 										<?php 
-											if(!isset($_GET['action']) || $_GET['action'] != "add")
+											if(!isset($_GET['action']) || ($_GET['action'] != "add" && $_GET['action'] != "groups"))
 											{
 												// load with ajax if user is admin to speed up frontpage loading time (because of high number of munin nodes)
 												if($_SESSION['role'] == "admin")

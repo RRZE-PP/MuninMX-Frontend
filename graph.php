@@ -140,6 +140,7 @@ if(!dataAvailable($host,$plugin))
         <script src="js/highstock.js" type="text/javascript"></script>
         <script src="js/bootstrap/bootstrap.min.js"></script>
         <script src="js/modules/exporting.js"></script>
+        <script src="js/highstock-mods.js" type="text/javascript"></script>
         <?php if(isset($_GET['refresh']) && is_numeric($_GET['refresh'])) { ?>
         	<meta http-equiv="refresh" content="<?php echo $_GET['refresh']*60?>; URL=<?php echo getCurUrl()?>">
        	<?php } ?>

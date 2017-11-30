@@ -221,7 +221,7 @@ if($_GET['a'] == "export" && $_GET['download'] == "true")
 							
 						
 								
-								// check if choosen contacts belong to this user 
+								// check if chosen contacts belong to this user 
 								$contact_err = false;
 								if($_SESSION['role'] != "admin")
 								{
@@ -249,13 +249,12 @@ if($_GET['a'] == "export" && $_GET['download'] == "true")
 								if(!$err)
 								{
 									$_POST = secureArray($_POST);
-									$db->query("INSERT INTO service_checks (user_id,check_type,check_name,cinterval,locations,json,accessgroup)
+									$db->query("INSERT INTO service_checks (user_id,check_type,check_name,cinterval,json,accessgroup)
 									VALUES 
 									($user->id,
 									$_POST[checktype],
 									'$_POST[checkname]',
 									$_POST[interval],
-                                    '',
 									'$json',
 									'$_POST[accessgroup]'
 									)

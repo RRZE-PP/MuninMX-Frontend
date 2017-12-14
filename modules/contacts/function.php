@@ -287,8 +287,8 @@ function addContactViaPost()
 			}
 			else
 			{
-				display_error("SAVE ERROR","<br />There was a issue with the database operation. Please try again later or contact support if the problem persist");
-				include("templates/contacts/forms/add.tpl.php");
+    				display_error("SAVE ERROR","<br />There was a issue with the database operation. Please try again later or contact support if the problem persist.<br />Error: ".$db->error);
+                    include("templates/contacts/forms/add.tpl.php");
 			}
 		}
 }

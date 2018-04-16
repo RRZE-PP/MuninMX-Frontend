@@ -316,7 +316,7 @@ elseif($_GET['favorite'] == "false")
 									if($db->affected_rows < 1)
 									{
 										$fail = true;
-										display_error("Cannot create Dashboard","There was a error creating this dashboard. Please try again later");
+										display_error("Cannot create Dashboard","There was a error creating this dashboard. Please try again later.<br/>Error: ".$db->error);
 									}
 									else {
 										$did = $db->insert_id;	
